@@ -1,4 +1,5 @@
 import './style.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { proxy } from 'valtio/vanilla';
 import i18next from 'i18next';
 import initView from './view.js';
@@ -37,7 +38,6 @@ const state = proxy({
 });
 
 const i18nInstance = i18next.createInstance();
-
 const createId = () => crypto.randomUUID();
 
 const getNewPosts = (parsedPosts, existingPosts, feedId) => {
@@ -139,12 +139,12 @@ i18nInstance.init({
   });
 
   elements.posts.addEventListener('click', (e) => {
-    const button = e.target.closest('[data-id]');
-    if (!button) {
+    const target = e.target.closest('[data-id]');
+    if (!target) {
       return;
     }
 
-    const { id } = button.dataset;
+    const { id } = target.dataset;
     state.ui.modalPostId = id;
 
     if (!state.ui.viewedPosts.includes(id)) {
