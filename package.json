@@ -1,0 +1,19 @@
+{
+  "name": "dzhem-project",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.0.1"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "valtio": "^2.3.1",
+    "yup": "^1.7.1"
+  }
+}
