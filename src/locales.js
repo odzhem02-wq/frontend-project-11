@@ -5,6 +5,15 @@ export default {
         required: 'Не должно быть пустым',
         invalidUrl: 'Ссылка должна быть валидным URL',
         duplicate: 'RSS уже добавлен',
+        invalidRss: 'Ресурс не содержит валидный RSS',
+        network: 'Ошибка сети',
+      },
+      success: {
+        loaded: 'RSS успешно загружен',
+      },
+      sections: {
+        posts: 'Посты',
+        feeds: 'Фиды',
       },
     },
   },

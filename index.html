@@ -5,34 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RSS агрегатор</title>
   </head>
-
-  <body class="bg-dark text-light">
-    <div class="container py-5">
+  <body>
+    <div class="container-fluid p-5 bg-dark text-white">
       <div class="row justify-content-center">
-        <div class="col-12 col-lg-10">
+        <div class="col-md-10 col-lg-8">
           <h1 class="display-3 mb-3">RSS агрегатор</h1>
-          <p class="lead mb-4">Начните читать RSS сегодня! Это легко, это красиво.</p>
+          <p class="lead">Начните читать RSS сегодня! Это легко, это красиво.</p>
 
-          <form class="rss-form">
-            <div class="row g-2 align-items-start">
+          <form class="rss-form text-body">
+            <div class="row g-2">
               <div class="col-12 col-md-9">
-                <label class="visually-hidden" for="url-input">Ссылка RSS</label>
+                <label for="url-input" class="visually-hidden">Ссылка RSS</label>
                 <input
                   id="url-input"
                   name="url"
                   type="text"
+                  required
                   class="form-control form-control-lg"
                   placeholder="Ссылка RSS"
-                  aria-label="Ссылка RSS"
                   autofocus
                 />
-                <div class="feedback text-danger mt-2"></div>
               </div>
               <div class="col-12 col-md-3">
-                <button type="submit" class="btn btn-primary btn-lg w-100">Добавить</button>
+                <button type="submit" class="btn btn-primary btn-lg w-100">
+                  Добавить
+                </button>
               </div>
             </div>
+
+            <p class="mt-2 mb-0 text-white-50">
+              Пример: https://lorem-rss.hexlet.app/feed
+            </p>
+            <div class="feedback mt-1 small"></div>
           </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid bg-light min-vh-100 py-5">
+      <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+          <div class="row">
+            <div class="col-md-6 posts"></div>
+            <div class="col-md-6 feeds"></div>
+          </div>
         </div>
       </div>
     </div>
