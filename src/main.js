@@ -1,7 +1,9 @@
 import './style.css';
 import { proxy } from 'valtio/vanilla';
+import i18next from 'i18next';
 import initView from './view.js';
 import validateUrl from './validate.js';
+import resources from './locales.js';
 
 const elements = {
   form: document.querySelector('.rss-form'),
@@ -19,28 +21,36 @@ const state = proxy({
   },
 });
 
-initView(state, elements);
+const i18nInstance = i18next.createInstance();
 
-elements.form.addEventListener('submit', (e) => {
-  e.preventDefault();
+i18nInstance.init({
+  lng: 'ru',
+  debug: false,
+  resources,
+}).then(() => {
+  initView(state, elements, i18nInstance);
 
-  const formData = new FormData(elements.form);
-  const url = formData.get('url').trim();
-  const existingUrls = state.feeds.map((feed) => feed.url);
+  elements.form.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-  state.form.sending = true;
-  state.form.error = '';
+    const formData = new FormData(elements.form);
+    const url = formData.get('url').trim();
+    const existingUrls = state.feeds.map((feed) => feed.url);
 
-  validateUrl(url, existingUrls)
-    .then((validUrl) => {
-      state.feeds.push({ url: validUrl });
-      state.form.valid = true;
-      state.form.error = '';
-    })
-    .catch((error) => {
-      state.form.error = error.message;
-    })
-    .finally(() => {
-      state.form.sending = false;
-    });
+    state.form.sending = true;
+    state.form.error = '';
+
+    validateUrl(url, existingUrls)
+      .then((validUrl) => {
+        state.feeds.push({ url: validUrl });
+        state.form.valid = true;
+        state.form.error = '';
+      })
+      .catch((error) => {
+        state.form.error = error.message;
+      })
+      .finally(() => {
+        state.form.sending = false;
+      });
+  });
 });

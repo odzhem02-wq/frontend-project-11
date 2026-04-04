@@ -8,15 +8,13 @@ const renderInput = (elements, state) => {
   }
 };
 
-const renderFeedback = (elements, state) => {
-  elements.feedback.textContent = state.form.error;
-
+const renderFeedback = (elements, state, i18n) => {
   if (state.form.error) {
-    elements.feedback.classList.remove('text-success');
+    elements.feedback.textContent = i18n.t(state.form.error);
     elements.feedback.classList.add('text-danger');
   } else {
-    elements.feedback.classList.remove('text-danger');
     elements.feedback.textContent = '';
+    elements.feedback.classList.remove('text-danger');
   }
 };
 
@@ -24,10 +22,10 @@ const renderForm = (elements, state) => {
   elements.submitButton.disabled = state.form.sending;
 };
 
-export default (state, elements) => {
+export default (state, elements, i18n) => {
   subscribe(state, () => {
     renderInput(elements, state);
-    renderFeedback(elements, state);
+    renderFeedback(elements, state, i18n);
     renderForm(elements, state);
 
     if (state.form.valid) {
