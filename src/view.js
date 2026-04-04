@@ -55,16 +55,38 @@ const createFeedsMarkup = (feeds, i18n) => {
   `;
 };
 
-const createPostsMarkup = (posts, i18n) => {
+const createPostsMarkup = (posts, viewedPosts, i18n) => {
   if (posts.length === 0) {
     return '';
   }
 
-  const items = posts.map((post) => `
-    <li class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">
-      <a href="${post.link}" target="_blank" rel="noopener noreferrer">${post.title}</a>
-    </li>
-  `).join('');
+  const items = posts.map((post) => {
+    const isViewed = viewedPosts.includes(post.id);
+    const linkClass = isViewed ? 'fw-normal link-secondary' : 'fw-bold';
+
+    return `
+      <li class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">
+        <a
+          href="${post.link}"
+          class="${linkClass}"
+          data-id="${post.id}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ${post.title}
+        </a>
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-sm"
+          data-id="${post.id}"
+          data-bs-toggle="modal"
+          data-bs-target="#modal"
+        >
+          Просмотр
+        </button>
+      </li>
+    `;
+  }).join('');
 
   return `
     <div class="card border-0">
@@ -83,7 +105,23 @@ const renderFeeds = (elements, state, i18n) => {
 };
 
 const renderPosts = (elements, state, i18n) => {
-  elements.posts.innerHTML = createPostsMarkup(state.posts, i18n);
+  elements.posts.innerHTML = createPostsMarkup(state.posts, state.ui.viewedPosts, i18n);
+};
+
+const renderModal = (elements, state) => {
+  if (!state.ui.modalPostId) {
+    return;
+  }
+
+  const post = state.posts.find(({ id }) => id === state.ui.modalPostId);
+
+  if (!post) {
+    return;
+  }
+
+  elements.modal.title.textContent = post.title;
+  elements.modal.body.textContent = post.description;
+  elements.modal.fullArticle.href = post.link;
 };
 
 export default (state, elements, i18n) => {
@@ -93,6 +131,7 @@ export default (state, elements, i18n) => {
     renderForm(elements, state);
     renderFeeds(elements, state, i18n);
     renderPosts(elements, state, i18n);
+    renderModal(elements, state);
 
     if (state.form.valid) {
       elements.form.reset();

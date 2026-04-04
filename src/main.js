@@ -14,11 +14,20 @@ const elements = {
   submitButton: document.querySelector('button[type="submit"]'),
   feeds: document.querySelector('.feeds'),
   posts: document.querySelector('.posts'),
+  modal: {
+    title: document.querySelector('.modal-title'),
+    body: document.querySelector('.modal-body'),
+    fullArticle: document.querySelector('.full-article'),
+  },
 };
 
 const state = proxy({
   feeds: [],
   posts: [],
+  ui: {
+    viewedPosts: [],
+    modalPostId: null,
+  },
   form: {
     error: '',
     valid: false,
@@ -60,15 +69,13 @@ const updateFeeds = () => {
         }
       })
       .catch(() => {
-        // Ошибки фонового обновления не показываем пользователю,
-        // просто пропускаем этот цикл
+        // фоновые ошибки игнорируем
       })
   ));
 
-  Promise.all(promises)
-    .finally(() => {
-      setTimeout(updateFeeds, 5000);
-    });
+  Promise.all(promises).finally(() => {
+    setTimeout(updateFeeds, 5000);
+  });
 };
 
 i18nInstance.init({
@@ -129,6 +136,20 @@ i18nInstance.init({
       .finally(() => {
         state.form.sending = false;
       });
+  });
+
+  elements.posts.addEventListener('click', (e) => {
+    const button = e.target.closest('[data-id]');
+    if (!button) {
+      return;
+    }
+
+    const { id } = button.dataset;
+    state.ui.modalPostId = id;
+
+    if (!state.ui.viewedPosts.includes(id)) {
+      state.ui.viewedPosts.push(id);
+    }
   });
 
   updateFeeds();
