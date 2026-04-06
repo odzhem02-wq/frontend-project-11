@@ -5,8 +5,7 @@ import i18next from 'i18next';
 import initView from './view.js';
 import validateUrl from './validate.js';
 import resources from './locales.js';
-import loadRss from './api.js';
-import parseRSS from './parser.js';
+import { handleAddFeed, updateFeeds } from './controller.js';
 
 const elements = {
   form: document.querySelector('.rss-form'),
@@ -38,45 +37,6 @@ const state = proxy({
 });
 
 const i18nInstance = i18next.createInstance();
-const createId = () => crypto.randomUUID();
-
-const getNewPosts = (parsedPosts, existingPosts, feedId) => {
-  const existingLinks = existingPosts
-    .filter((post) => post.feedId === feedId)
-    .map((post) => post.link);
-
-  return parsedPosts
-    .filter((post) => !existingLinks.includes(post.link))
-    .map((post) => ({
-      id: createId(),
-      feedId,
-      title: post.title,
-      description: post.description,
-      link: post.link,
-    }));
-};
-
-const updateFeeds = () => {
-  const promises = state.feeds.map((feed) => (
-    loadRss(feed.url)
-      .then((response) => {
-        const { contents } = response.data;
-        const parsedData = parseRSS(contents);
-        const newPosts = getNewPosts(parsedData.posts, state.posts, feed.id);
-
-        if (newPosts.length > 0) {
-          state.posts.unshift(...newPosts);
-        }
-      })
-      .catch(() => {
-        // фоновые ошибки игнорируем
-      })
-  ));
-
-  Promise.all(promises).finally(() => {
-    setTimeout(updateFeeds, 5000);
-  });
-};
 
 i18nInstance.init({
   lng: 'ru',
@@ -97,34 +57,7 @@ i18nInstance.init({
     state.form.success = false;
 
     validateUrl(url, existingUrls)
-      .then((validUrl) => loadRss(validUrl)
-        .then((response) => {
-          const { contents } = response.data;
-          const parsedData = parseRSS(contents);
-
-          const feedId = createId();
-
-          const feed = {
-            id: feedId,
-            url: validUrl,
-            title: parsedData.feed.title,
-            description: parsedData.feed.description,
-          };
-
-          const posts = parsedData.posts.map((post) => ({
-            id: createId(),
-            feedId,
-            title: post.title,
-            description: post.description,
-            link: post.link,
-          }));
-
-          state.feeds.unshift(feed);
-          state.posts.unshift(...posts);
-          state.form.valid = true;
-          state.form.success = true;
-          state.form.error = '';
-        }))
+      .then((validUrl) => handleAddFeed(validUrl, state))
       .catch((error) => {
         if (error.isAxiosError) {
           state.form.error = 'errors.network';
@@ -152,5 +85,5 @@ i18nInstance.init({
     }
   });
 
-  updateFeeds();
+  updateFeeds(state);
 });
