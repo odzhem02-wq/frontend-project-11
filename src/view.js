@@ -62,13 +62,14 @@ const createPostsMarkup = (posts, viewedPosts, i18n) => {
 
   const items = posts.map((post) => {
     const isViewed = viewedPosts.includes(post.id);
-    const linkClass = isViewed ? 'fw-normal link-secondary' : 'fw-bold';
+    const weightClass = isViewed ? 'fw-normal' : 'fw-bold';
+    const colorClass = isViewed ? 'link-secondary' : 'link-dark';
 
     return `
-      <li class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">
+      <li class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0 ${weightClass}">
         <a
           href="${post.link}"
-          class="${linkClass}"
+          class="${weightClass} ${colorClass}"
           data-id="${post.id}"
           target="_blank"
           rel="noopener noreferrer"
