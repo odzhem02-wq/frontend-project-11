@@ -5,12 +5,12 @@ const createId = () => String(Date.now() + Math.random())
 
 const getNewPosts = (parsedPosts, existingPosts, feedId) => {
   const existingLinks = existingPosts
-    .filter((post) => post.feedId === feedId)
-    .map((post) => post.link)
+    .filter(post => post.feedId === feedId)
+    .map(post => post.link)
 
   return parsedPosts
-    .filter((post) => !existingLinks.includes(post.link))
-    .map((post) => ({
+    .filter(post => !existingLinks.includes(post.link))
+    .map(post => ({
       id: createId(),
       feedId,
       title: post.title,
@@ -21,7 +21,7 @@ const getNewPosts = (parsedPosts, existingPosts, feedId) => {
 
 export const handleAddFeed = (url, state) => (
   loadRss(url)
-    .then((response) => {
+    .then(response => {
       const { contents } = response.data
       const parsedData = parseRSS(contents)
 
@@ -34,7 +34,7 @@ export const handleAddFeed = (url, state) => (
         description: parsedData.feed.description,
       }
 
-      const posts = parsedData.posts.map((post) => ({
+      const posts = parsedData.posts.map(post => ({
         id: createId(),
         feedId,
         title: post.title,
@@ -50,10 +50,10 @@ export const handleAddFeed = (url, state) => (
     })
 )
 
-export const updateFeeds = (state) => {
-  const promises = state.feeds.map((feed) => (
+export const updateFeeds = state => {
+  const promises = state.feeds.map(feed => (
     loadRss(feed.url)
-      .then((response) => {
+      .then(response => {
         const { contents } = response.data
         const parsedData = parseRSS(contents)
         const newPosts = getNewPosts(parsedData.posts, state.posts, feed.id)
