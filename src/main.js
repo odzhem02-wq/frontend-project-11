@@ -50,14 +50,14 @@ i18nInstance.init({
 
     const formData = new FormData(elements.form)
     const url = formData.get('url').trim()
-    const existingUrls = state.feeds.map((feed) => feed.url)
+    const existingUrls = state.feeds.map(feed => feed.url)
 
     state.form.sending = true
     state.form.error = ''
     state.form.success = false
 
     validateUrl(url, existingUrls)
-      .then((validUrl) => handleAddFeed(validUrl, state))
+      .then(validUrl => handleAddFeed(validUrl, state))
       .catch((error) => {
         if (error.isAxiosError) {
           state.form.error = 'errors.network'

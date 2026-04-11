@@ -3,8 +3,7 @@ import { subscribe } from 'valtio/vanilla'
 const renderInput = (elements, state) => {
   if (state.form.error) {
     elements.input.classList.add('is-invalid')
-  }
-  else {
+  } else {
     elements.input.classList.remove('is-invalid')
   }
 }
