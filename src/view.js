@@ -3,7 +3,8 @@ import { subscribe } from 'valtio/vanilla'
 const renderInput = (elements, state) => {
   if (state.form.error) {
     elements.input.classList.add('is-invalid')
-  } else {
+  }
+  else {
     elements.input.classList.remove('is-invalid')
   }
 }
@@ -60,7 +61,7 @@ const createPostsMarkup = (posts, viewedPosts, i18n) => {
     return ''
   }
 
-  const items = posts.map(post => {
+  const items = posts.map((post) => {
     const isViewed = viewedPosts.includes(post.id)
     const linkClass = isViewed ? 'fw-normal link-secondary' : 'fw-bold'
 
