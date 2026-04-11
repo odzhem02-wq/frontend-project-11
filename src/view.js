@@ -62,9 +62,7 @@ const createPostsMarkup = (posts, viewedPosts, i18n) => {
 
   const items = posts.map((post) => {
     const isViewed = viewedPosts.includes(post.id);
-    const linkClass = isViewed
-      ? 'fw-normal link-secondary'
-      : 'fw-bold link-primary';
+    const linkClass = isViewed ? 'fw-normal link-secondary' : 'fw-bold';
 
     return `
       <li class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">

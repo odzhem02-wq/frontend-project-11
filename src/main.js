@@ -78,13 +78,10 @@ i18nInstance.init({
     }
 
     const { id } = target.dataset;
+    state.ui.modalPostId = id;
 
     if (!state.ui.viewedPosts.includes(id)) {
       state.ui.viewedPosts.push(id);
-    }
-
-    if (target.tagName === 'BUTTON') {
-      state.ui.modalPostId = id;
     }
   });
 

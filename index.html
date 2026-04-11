@@ -13,47 +13,41 @@
           <p class="lead">Начните читать RSS сегодня! Это легко, это красиво.</p>
 
           <form class="rss-form" novalidate>
-            <div class="row">
-              <div class="col">
-                <div class="form-floating">
-              <input
-                id="url-input"
-                name="url"
-                type="text"
-                class="form-control"
-                placeholder="Ссылка RSS"
-                aria-label="url"
+            <div class="row g-2">
+              <div class="col-12 col-md-9">
+                <label for="url-input" class="visually-hidden">Ссылка RSS</label>
+                <input
+                  id="url-input"
+                  name="url"
+                  type="text"
+                  class="form-control form-control-lg"
+                  placeholder="Ссылка RSS"
+                  aria-label="url"
+                  autofocus
                 />
-                  <label for="url-input">Ссылка RSS</label>
-                </div>
-
-                <div class="form-text">
-                  Пример: https://lorem-rss.hexlet.app/feed
-                </div>
-
-                <p class="feedback m-0 small"></p>
               </div>
-
-              <div class="col-auto">
-                <button type="submit" class="btn btn-primary h-100 px-5">
+              <div class="col-12 col-md-3">
+                <button type="submit" class="btn btn-primary btn-lg w-100">
                   Добавить
                 </button>
               </div>
             </div>
+
+            <p class="mt-2 mb-0 text-white-50">
+              Пример: https://lorem-rss.hexlet.app/feed
+            </p>
+            <div class="feedback mt-1 small"></div>
           </form>
         </div>
       </div>
+    </div>
 
-      <div class="row mt-5">
-        <div class="col-md-10 col-lg-8 mx-auto">
-          <div class="row g-4">
-            <div class="col-md-6">
-              <div class="posts"></div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="feeds"></div>
-            </div>
+    <div class="container-fluid bg-light min-vh-100 py-5">
+      <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+          <div class="row">
+            <div class="col-md-6 posts"></div>
+            <div class="col-md-6 feeds"></div>
           </div>
         </div>
       </div>
@@ -71,19 +65,16 @@
               aria-label="Закрыть"
             ></button>
           </div>
-
           <div class="modal-body"></div>
-
           <div class="modal-footer">
             <a
+              class="btn btn-primary full-article"
               href="#"
               target="_blank"
               rel="noopener noreferrer"
-              class="btn btn-primary full-article"
             >
               Читать полностью
             </a>
-
             <button
               type="button"
               class="btn btn-secondary"
