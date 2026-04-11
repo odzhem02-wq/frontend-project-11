@@ -72,12 +72,13 @@ i18nInstance.init({
   });
 
   elements.posts.addEventListener('click', (e) => {
-    const target = e.target.closest('[data-id]');
-    if (!target) {
+    const button = e.target.closest('button');
+
+    if (!button) {
       return;
     }
 
-    const { id } = target.dataset;
+    const { id } = button.dataset;
     state.ui.modalPostId = id;
 
     if (!state.ui.viewedPosts.includes(id)) {
