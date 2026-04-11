@@ -1,7 +1,7 @@
 import loadRss from './api.js';
 import parseRSS from './parser.js';
 
-const createId = () => crypto.randomUUID();
+const createId = () => String(Date.now() + Math.random());
 
 const getNewPosts = (parsedPosts, existingPosts, feedId) => {
   const existingLinks = existingPosts
@@ -63,6 +63,7 @@ export const updateFeeds = (state) => {
         }
       })
       .catch(() => {
+        // фоновые ошибки игнорируем
       })
   ));
 
