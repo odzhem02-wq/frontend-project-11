@@ -1,39 +1,39 @@
-import { subscribe } from 'valtio/vanilla';
+import { subscribe } from 'valtio/vanilla'
 
 const renderInput = (elements, state) => {
   if (state.form.error) {
-    elements.input.classList.add('is-invalid');
+    elements.input.classList.add('is-invalid')
   } else {
-    elements.input.classList.remove('is-invalid');
+    elements.input.classList.remove('is-invalid')
   }
-};
+}
 
 const renderFeedback = (elements, state, i18n) => {
   if (state.form.error) {
-    elements.feedback.textContent = i18n.t(state.form.error);
-    elements.feedback.classList.remove('text-success');
-    elements.feedback.classList.add('text-danger');
-    return;
+    elements.feedback.textContent = i18n.t(state.form.error)
+    elements.feedback.classList.remove('text-success')
+    elements.feedback.classList.add('text-danger')
+    return
   }
 
   if (state.form.success) {
-    elements.feedback.textContent = i18n.t('success.loaded');
-    elements.feedback.classList.remove('text-danger');
-    elements.feedback.classList.add('text-success');
-    return;
+    elements.feedback.textContent = i18n.t('success.loaded')
+    elements.feedback.classList.remove('text-danger')
+    elements.feedback.classList.add('text-success')
+    return
   }
 
-  elements.feedback.textContent = '';
-  elements.feedback.classList.remove('text-danger', 'text-success');
-};
+  elements.feedback.textContent = ''
+  elements.feedback.classList.remove('text-danger', 'text-success')
+}
 
 const renderForm = (elements, state) => {
-  elements.submitButton.disabled = state.form.sending;
-};
+  elements.submitButton.disabled = state.form.sending
+}
 
 const createFeedsMarkup = (feeds, i18n) => {
   if (feeds.length === 0) {
-    return '';
+    return ''
   }
 
   const items = feeds.map((feed) => `
@@ -41,7 +41,7 @@ const createFeedsMarkup = (feeds, i18n) => {
       <h3 class="h6 m-0">${feed.title}</h3>
       <p class="m-0 small text-black-50">${feed.description}</p>
     </li>
-  `).join('');
+  `).join('')
 
   return `
     <div class="card border-0">
@@ -52,17 +52,17 @@ const createFeedsMarkup = (feeds, i18n) => {
         ${items}
       </ul>
     </div>
-  `;
-};
+  `
+}
 
 const createPostsMarkup = (posts, viewedPosts, i18n) => {
   if (posts.length === 0) {
-    return '';
+    return ''
   }
 
   const items = posts.map((post) => {
-    const isViewed = viewedPosts.includes(post.id);
-    const linkClass = isViewed ? 'fw-normal link-secondary' : 'fw-bold';
+    const isViewed = viewedPosts.includes(post.id)
+    const linkClass = isViewed ? 'fw-normal link-secondary' : 'fw-bold'
 
     return `
       <li class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">
@@ -85,8 +85,8 @@ const createPostsMarkup = (posts, viewedPosts, i18n) => {
           Просмотр
         </button>
       </li>
-    `;
-  }).join('');
+    `
+  }).join('')
 
   return `
     <div class="card border-0">
@@ -97,46 +97,46 @@ const createPostsMarkup = (posts, viewedPosts, i18n) => {
         ${items}
       </ul>
     </div>
-  `;
-};
+  `
+}
 
 const renderFeeds = (elements, state, i18n) => {
-  elements.feeds.innerHTML = createFeedsMarkup(state.feeds, i18n);
-};
+  elements.feeds.innerHTML = createFeedsMarkup(state.feeds, i18n)
+}
 
 const renderPosts = (elements, state, i18n) => {
-  elements.posts.innerHTML = createPostsMarkup(state.posts, state.ui.viewedPosts, i18n);
-};
+  elements.posts.innerHTML = createPostsMarkup(state.posts, state.ui.viewedPosts, i18n)
+}
 
 const renderModal = (elements, state) => {
   if (!state.ui.modalPostId) {
-    return;
+    return
   }
 
-  const post = state.posts.find(({ id }) => id === state.ui.modalPostId);
+  const post = state.posts.find(({ id }) => id === state.ui.modalPostId)
 
   if (!post) {
-    return;
+    return
   }
 
-  elements.modal.title.textContent = post.title;
-  elements.modal.body.textContent = post.description;
-  elements.modal.fullArticle.href = post.link;
-};
+  elements.modal.title.textContent = post.title
+  elements.modal.body.textContent = post.description
+  elements.modal.fullArticle.href = post.link
+}
 
 export default (state, elements, i18n) => {
   subscribe(state, () => {
-    renderInput(elements, state);
-    renderFeedback(elements, state, i18n);
-    renderForm(elements, state);
-    renderFeeds(elements, state, i18n);
-    renderPosts(elements, state, i18n);
-    renderModal(elements, state);
+    renderInput(elements, state)
+    renderFeedback(elements, state, i18n)
+    renderForm(elements, state)
+    renderFeeds(elements, state, i18n)
+    renderPosts(elements, state, i18n)
+    renderModal(elements, state)
 
     if (state.form.valid) {
-      elements.form.reset();
-      elements.input.focus();
-      state.form.valid = false;
+      elements.form.reset()
+      elements.input.focus()
+      state.form.valid = false
     }
-  });
-};
+  })
+}
