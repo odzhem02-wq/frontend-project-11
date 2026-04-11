@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+import * as yup from 'yup'
 
 yup.setLocale({
   mixed: {
@@ -8,14 +8,14 @@ yup.setLocale({
   string: {
     url: 'errors.invalidUrl',
   },
-});
+})
 
 export default (value, existingUrls) => {
   const schema = yup
     .string()
     .required()
     .url()
-    .notOneOf(existingUrls);
+    .notOneOf(existingUrls)
 
-  return schema.validate(value);
-};
+  return schema.validate(value)
+}

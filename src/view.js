@@ -3,7 +3,8 @@ import { subscribe } from 'valtio/vanilla'
 const renderInput = (elements, state) => {
   if (state.form.error) {
     elements.input.classList.add('is-invalid')
-  } else {
+  }
+  else {
     elements.input.classList.remove('is-invalid')
   }
 }
@@ -36,7 +37,7 @@ const createFeedsMarkup = (feeds, i18n) => {
     return ''
   }
 
-  const items = feeds.map((feed) => `
+  const items = feeds.map(feed => `
     <li class="list-group-item border-0 border-end-0">
       <h3 class="h6 m-0">${feed.title}</h3>
       <p class="m-0 small text-black-50">${feed.description}</p>
@@ -60,7 +61,7 @@ const createPostsMarkup = (posts, viewedPosts, i18n) => {
     return ''
   }
 
-  const items = posts.map((post) => {
+  const items = posts.map(post => {
     const isViewed = viewedPosts.includes(post.id)
     const linkClass = isViewed ? 'fw-normal link-secondary' : 'fw-bold'
 
