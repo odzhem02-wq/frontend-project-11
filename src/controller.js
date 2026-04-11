@@ -50,7 +50,7 @@ export const handleAddFeed = (url, state) => (
     })
 )
 
-export const updateFeeds = state => {
+export const updateFeeds = (state) => {
   const promises = state.feeds.map(feed => (
     loadRss(feed.url)
       .then((response) => {
